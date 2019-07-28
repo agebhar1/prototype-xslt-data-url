@@ -35,11 +35,11 @@ class DataURLResolver : URIResolver {
 
 	override fun resolve(href: String?, base: String?): Source? {
 
-		val dataUrl = serializer.unserialize(href)
-		if (dataUrl == null) {
+		if (href == null) {
 			return null
 		}
 
+		val dataUrl = serializer.unserialize(href)
 		return StreamSource(
 			StringReader(
 				String(
