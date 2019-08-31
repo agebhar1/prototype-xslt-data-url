@@ -22,48 +22,48 @@
  */
 package com.github.agebhar1.prototypes.xml.transform
 
+import java.net.MalformedURLException
+import javax.xml.transform.stream.StreamSource
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.nullValue
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import java.net.MalformedURLException
-import javax.xml.transform.stream.StreamSource
 
 class DataURLResolverTests {
 
-	@Test
-	fun `resolve 'null' href should return 'null'`() {
-		val resolver = DataURLResolver()
-		assertThat(resolver.resolve(null, null), `is`(nullValue()))
-	}
+    @Test
+    fun `resolve 'null' href should return 'null'`() {
+        val resolver = DataURLResolver()
+        assertThat(resolver.resolve(null, null), `is`(nullValue()))
+    }
 
-	@Test
-	fun `resolve empty href should throw MalformedURLException`() {
-		assertThrows(
-			MalformedURLException::class.java,
-			{
-				val resolver = DataURLResolver()
-				resolver.resolve("", null)
-			},
-			"Wrong protocol"
-		)
-	}
+    @Test
+    fun `resolve empty href should throw MalformedURLException`() {
+        assertThrows(
+            MalformedURLException::class.java,
+            {
+                val resolver = DataURLResolver()
+                resolver.resolve("", null)
+            },
+            "Wrong protocol"
+        )
+    }
 
-	@Test
-	fun `resolve non data URL should throw MalformedURLException`() {
-		assertThrows(
-			MalformedURLException::class.java,
-			{
-				val resolver = DataURLResolver()
-				resolver.resolve("https://github.com/", null)
-			},
-			"Wrong protocol"
-		)
-	}
+    @Test
+    fun `resolve non data URL should throw MalformedURLException`() {
+        assertThrows(
+            MalformedURLException::class.java,
+            {
+                val resolver = DataURLResolver()
+                resolver.resolve("https://github.com/", null)
+            },
+            "Wrong protocol"
+        )
+    }
 
-	/** RFC 2397
+    /** RFC 2397
 	 *
 	 * 	3. Syntax
 	 *
@@ -73,62 +73,58 @@ class DataURLResolverTests {
 	 *		parameter  := attribute "=" value
 	 *
 	 */
-	@Test
-	fun `resolve data URL with invalid 'encoding' should throw MalformedURLException`() {
-		assertThrows(
-			MalformedURLException::class.java,
-			{
-				val resolver = DataURLResolver()
-				resolver.resolve("data:plain/text;base32,JBSWY3DPEBFW65DMNFXAU===", null)
-			},
-			"Unknown encoding \"base32\""
-		)
-	}
+    @Test
+    fun `resolve data URL with invalid 'encoding' should throw MalformedURLException`() {
+        assertThrows(
+            MalformedURLException::class.java,
+            {
+                val resolver = DataURLResolver()
+                resolver.resolve("data:plain/text;base32,JBSWY3DPEBFW65DMNFXAU===", null)
+            },
+            "Unknown encoding \"base32\""
+        )
+    }
 
-	@Test
-	fun `resolve data URL with empty data should be successful`() {
+    @Test
+    fun `resolve data URL with empty data should be successful`() {
 
-		val resolver = DataURLResolver()
+        val resolver = DataURLResolver()
 
-		val actual = resolver.resolve("data:plain/text;base64,", null)
+        val actual = resolver.resolve("data:plain/text;base64,", null)
 
-		val data = (actual as StreamSource).getReader().readText()
-		assertThat(data, `is`(equalTo("")))
+        val data = (actual as StreamSource).getReader().readText()
+        assertThat(data, `is`(equalTo("")))
+    }
 
-	}
+    @Test
+    fun `resolve data URL with Base64 decoded data should return a StreamSource with encoded data`() {
 
-	@Test
-	fun `resolve data URL with Base64 decoded data should return a StreamSource with encoded data`() {
+        val resolver = DataURLResolver()
 
-		val resolver = DataURLResolver()
+        val actual = resolver.resolve(
+            "data:plain/text;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50Lz4K",
+            null
+        )
 
-		val actual = resolver.resolve(
-			"data:plain/text;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50Lz4K",
-			null
-		)
+        val data = (actual as StreamSource).getReader().readText()
+        assertThat(
+            data,
+            `is`(
+                equalTo(
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<document/>\n"
+                )
+            )
+        )
+    }
 
-		val data = (actual as StreamSource).getReader().readText()
-		assertThat(
-			data,
-			`is`(
-				equalTo(
-					"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<document/>\n"
-				)
-			)
-		)
+    @Test
+    fun `resolve data URL should encode data by given charset`() {
 
-	}
+        val resolver = DataURLResolver()
 
-	@Test
-	fun `resolve data URL should encode data by given charset`() {
+        val actual = resolver.resolve("data:plain/text;charset=iso-8859-1;base64,tQ==", null)
 
-		val resolver = DataURLResolver()
-
-		val actual = resolver.resolve("data:plain/text;charset=iso-8859-1;base64,tQ==", null)
-
-		val data = (actual as StreamSource).getReader().readText()
-		assertThat(data, `is`(equalTo("µ")))
-
-	}
-
+        val data = (actual as StreamSource).getReader().readText()
+        assertThat(data, `is`(equalTo("µ")))
+    }
 }

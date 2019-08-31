@@ -22,182 +22,169 @@
  */
 package com.github.agebhar1.prototypes.xml.transform
 
+import javax.xml.transform.ErrorListener
+import javax.xml.transform.Source
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.URIResolver
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.anyBoolean
 import org.mockito.Mockito.eq
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
-import javax.xml.transform.ErrorListener
-import javax.xml.transform.Source
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.URIResolver
 
 class DelegatingTransformerFactoryTests {
 
-	@Test
-	fun `should delegate newTransformer()`() {
+    @Test
+    fun `should delegate newTransformer()`() {
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		factory.newTransformer();
+        factory.newTransformer()
 
-		verify(delegate).newTransformer()
+        verify(delegate).newTransformer()
+    }
 
-	}
+    @Test
+    fun `should delegate newTransformer(Source)`() {
 
-	@Test
-	fun `should delegate newTransformer(Source)`() {
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        val source = mock(Source::class.java)
 
-		val source = mock(Source::class.java)
+        factory.newTransformer(source)
 
-		factory.newTransformer(source);
+        verify(delegate).newTransformer(eq(source))
+    }
 
-		verify(delegate).newTransformer(eq(source))
+    @Test
+    fun `should delegate newTemplates(Source)`() {
 
-	}
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-	@Test
-	fun `should delegate newTemplates(Source)`() {
+        val source = mock(Source::class.java)
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        factory.newTemplates(source)
 
-		val source = mock(Source::class.java)
+        verify(delegate).newTemplates(eq(source))
+    }
 
-		factory.newTemplates(source);
+    @Test
+    fun `should delegate getAssociatedStylesheet(Source, String, String, String)`() {
 
-		verify(delegate).newTemplates(eq(source))
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-	}
+        val source = mock(Source::class.java)
+        val media = "any media"
+        val title = "any title"
+        val charset = "any charset"
 
-	@Test
-	fun `should delegate getAssociatedStylesheet(Source, String, String, String)`() {
+        factory.getAssociatedStylesheet(source, media, title, charset)
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        verify(delegate).getAssociatedStylesheet(eq(source), eq(media), eq(title), eq(charset))
+    }
 
-		val source = mock(Source::class.java)
-		val media = "any media"
-		val title = "any title"
-		val charset = "any charset"
+    @Test
+    fun `should delegate setURIResolver(URIResolver)`() {
 
-		factory.getAssociatedStylesheet(source, media, title, charset);
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		verify(delegate).getAssociatedStylesheet(eq(source), eq(media), eq(title), eq(charset))
+        val resolver = mock(URIResolver::class.java)
 
-	}
+        factory.setURIResolver(resolver)
 
-	@Test
-	fun `should delegate setURIResolver(URIResolver)`() {
+        verify(delegate).setURIResolver(eq(resolver))
+    }
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+    @Test
+    fun `should delegate getURIResolver()`() {
 
-		val resolver = mock(URIResolver::class.java)
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		factory.setURIResolver(resolver);
+        factory.getURIResolver()
 
-		verify(delegate).setURIResolver(eq(resolver))
+        verify(delegate).getURIResolver()
+    }
 
-	}
+    @Test
+    fun `should delegate setFeature(String, Boolean)`() {
 
-	@Test
-	fun `should delegate getURIResolver()`() {
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        val name = "any feature"
 
-		factory.getURIResolver();
+        factory.setFeature(name, true)
 
-		verify(delegate).getURIResolver()
+        verify(delegate).setFeature(eq(name), anyBoolean())
+    }
 
-	}
+    @Test
+    fun `should delegate getFeature(String)`() {
 
-	@Test
-	fun `should delegate setFeature(String, Boolean)`() {
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        val name = "any feature"
 
-		val name = "any feature"
+        factory.getFeature(name)
 
-		factory.setFeature(name, true);
+        verify(delegate).getFeature(eq(name))
+    }
 
-		verify(delegate).setFeature(eq(name), anyBoolean())
+    @Test
+    fun `should delegate setAttribute(String, Any)`() {
 
-	}
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-	@Test
-	fun `should delegate getFeature(String)`() {
+        val name = "any attribute"
+        val value = Object()
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        factory.setAttribute(name, value)
 
-		val name = "any feature"
+        verify(delegate).setAttribute(eq(name), eq(value))
+    }
 
-		factory.getFeature(name);
+    @Test
+    fun `should delegate getAttribute(String)`() {
 
-		verify(delegate).getFeature(eq(name))
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-	}
+        val name = "any attribute"
 
-	@Test
-	fun `should delegate setAttribute(String, Any)`() {
+        factory.getAttribute(name)
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+        verify(delegate).getAttribute(eq(name))
+    }
 
-		val name = "any attribute"
-		val value = Object()
+    @Test
+    fun `should delegate setErrorListener(ErrorListener)`() {
 
-		factory.setAttribute(name, value);
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		verify(delegate).setAttribute(eq(name), eq(value))
+        val listener = mock(ErrorListener::class.java)
 
-	}
+        factory.setErrorListener(listener)
 
-	@Test
-	fun `should delegate getAttribute(String)`() {
+        verify(delegate).setErrorListener(eq(listener))
+    }
 
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
+    @Test
+    fun `should delegate getErrorListener(String)`() {
 
-		val name = "any attribute"
+        val delegate = mock(TransformerFactory::class.java)
+        val factory = DelegatingTransformerFactory(delegate)
 
-		factory.getAttribute(name);
+        factory.getErrorListener()
 
-		verify(delegate).getAttribute(eq(name))
-
-	}
-
-	@Test
-	fun `should delegate setErrorListener(ErrorListener)`() {
-
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
-
-		val listener = mock(ErrorListener::class.java)
-
-		factory.setErrorListener(listener);
-
-		verify(delegate).setErrorListener(eq(listener))
-
-	}
-
-	@Test
-	fun `should delegate getErrorListener(String)`() {
-
-		val delegate = mock(TransformerFactory::class.java)
-		val factory = DelegatingTransformerFactory(delegate)
-
-		factory.getErrorListener();
-
-		verify(delegate).getErrorListener()
-
-	}
-
+        verify(delegate).getErrorListener()
+    }
 }

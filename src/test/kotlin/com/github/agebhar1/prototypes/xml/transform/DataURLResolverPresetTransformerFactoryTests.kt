@@ -22,34 +22,31 @@
  */
 package com.github.agebhar1.prototypes.xml.transform
 
+import javax.xml.transform.stream.StreamSource
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.instanceOf
 import org.junit.jupiter.api.Test
-import javax.xml.transform.stream.StreamSource
 
 class DataURLResolverPresetTransformerFactoryTests {
 
-	@Test
-	fun `a fresh instance's URIResolver should be of type DataURLResolver`() {
+    @Test
+    fun `a fresh instance's URIResolver should be of type DataURLResolver`() {
 
-		val instance = DataURLResolverPresetTransformerFactory()
+        val instance = DataURLResolverPresetTransformerFactory()
 
-		assertThat(instance.getURIResolver(), `is`(instanceOf(DataURLResolver::class.java)))
+        assertThat(instance.getURIResolver(), `is`(instanceOf(DataURLResolver::class.java)))
+    }
 
-	}
+    @Test
+    fun `newTemplate(Source) should return a instance of Jdk8URIResolverFixProxyTemplates`() {
 
-	@Test
-	fun `newTemplate(Source) should return a instance of Jdk8URIResolverFixProxyTemplates`() {
+        val instance = DataURLResolverPresetTransformerFactory()
 
-		val instance = DataURLResolverPresetTransformerFactory()
+        assertThat(instance.newTemplates(AnySource), `is`(instanceOf(Jdk8URIResolverFixProxyTemplates::class.java)))
+    }
 
-		assertThat(instance.newTemplates(AnySource), `is`(instanceOf(Jdk8URIResolverFixProxyTemplates::class.java)))
-
-	}
-
-	companion object {
-		val AnySource = StreamSource(ClassLoader.getSystemResourceAsStream("xslt/stylesheet.xsl"))
-	}
-
+    companion object {
+        val AnySource = StreamSource(ClassLoader.getSystemResourceAsStream("xslt/stylesheet.xsl"))
+    }
 }

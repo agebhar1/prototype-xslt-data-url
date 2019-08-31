@@ -23,32 +23,30 @@
 package com.github.agebhar1.prototypes.xml.transform
 
 import eu.maxschuster.dataurl.DataUrlSerializer
+import java.io.StringReader
+import java.nio.charset.Charset
 import javax.xml.transform.Source
 import javax.xml.transform.URIResolver
 import javax.xml.transform.stream.StreamSource
-import java.io.StringReader
-import java.nio.charset.Charset
 
 class DataURLResolver : URIResolver {
 
-	private val serializer = DataUrlSerializer()
+    private val serializer = DataUrlSerializer()
 
-	override fun resolve(href: String?, base: String?): Source? {
+    override fun resolve(href: String?, base: String?): Source? {
 
-		if (href == null) {
-			return null
-		}
+        if (href == null) {
+            return null
+        }
 
-		val dataUrl = serializer.unserialize(href)
-		return StreamSource(
-			StringReader(
-				String(
-					dataUrl.getData(),
-					Charset.forName(dataUrl.getHeaders()?.get("charset") ?: "UTF-8")
-				)
-			)
-		)
-
-	}
-
+        val dataUrl = serializer.unserialize(href)
+        return StreamSource(
+            StringReader(
+                String(
+                    dataUrl.getData(),
+                    Charset.forName(dataUrl.getHeaders()?.get("charset") ?: "UTF-8")
+                )
+            )
+        )
+    }
 }

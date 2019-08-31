@@ -31,8 +31,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest
 class PrototypeApplicationTests {
 
-	@Test
-	fun contextLoads() {
-	}
-
+    @Test
+    fun contextLoads() {
+    }
 }

@@ -31,29 +31,28 @@ import javax.xml.transform.URIResolver
 
 open class DelegatingTransformerFactory(protected val delegate: TransformerFactory) : TransformerFactory() {
 
-	override fun newTransformer(): Transformer? = delegate.newTransformer()
+    override fun newTransformer(): Transformer? = delegate.newTransformer()
 
-	override fun newTransformer(source: Source?): Transformer? = delegate.newTransformer(source)
+    override fun newTransformer(source: Source?): Transformer? = delegate.newTransformer(source)
 
-	override fun newTemplates(source: Source?): Templates? = delegate.newTemplates(source)
+    override fun newTemplates(source: Source?): Templates? = delegate.newTemplates(source)
 
-	override fun getAssociatedStylesheet(source: Source?, media: String?, title: String?, charset: String?): Source? =
-		delegate.getAssociatedStylesheet(source, media, title, charset)
+    override fun getAssociatedStylesheet(source: Source?, media: String?, title: String?, charset: String?): Source? =
+        delegate.getAssociatedStylesheet(source, media, title, charset)
 
-	override fun setURIResolver(resolver: URIResolver?) = delegate.setURIResolver(resolver)
+    override fun setURIResolver(resolver: URIResolver?) = delegate.setURIResolver(resolver)
 
-	override fun getURIResolver(): URIResolver? = delegate.getURIResolver()
+    override fun getURIResolver(): URIResolver? = delegate.getURIResolver()
 
-	override fun setFeature(name: String?, value: Boolean) = delegate.setFeature(name, value)
+    override fun setFeature(name: String?, value: Boolean) = delegate.setFeature(name, value)
 
-	override fun getFeature(name: String?): Boolean = delegate.getFeature(name)
+    override fun getFeature(name: String?): Boolean = delegate.getFeature(name)
 
-	override fun setAttribute(name: String?, value: Any?) = delegate.setAttribute(name, value)
+    override fun setAttribute(name: String?, value: Any?) = delegate.setAttribute(name, value)
 
-	override fun getAttribute(name: String?): Any? = delegate.getAttribute(name)
+    override fun getAttribute(name: String?): Any? = delegate.getAttribute(name)
 
-	override fun setErrorListener(listener: ErrorListener?) = delegate.setErrorListener(listener)
+    override fun setErrorListener(listener: ErrorListener?) = delegate.setErrorListener(listener)
 
-	override fun getErrorListener(): ErrorListener? = delegate.getErrorListener()
-
+    override fun getErrorListener(): ErrorListener? = delegate.getErrorListener()
 }

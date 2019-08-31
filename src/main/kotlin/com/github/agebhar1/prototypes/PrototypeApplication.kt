@@ -29,5 +29,5 @@ import org.springframework.boot.runApplication
 class PrototypeXsltDataUrlApplication
 
 fun main(args: Array<String>) {
-	runApplication<PrototypeXsltDataUrlApplication>(*args)
+    runApplication<PrototypeXsltDataUrlApplication>(*args)
 }

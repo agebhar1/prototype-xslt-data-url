@@ -27,13 +27,12 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.URIResolver
 
 class Jdk8URIResolverFixProxyTemplates(private val delegate: Templates, private val resolver: URIResolver?) :
-	Templates by delegate {
+    Templates by delegate {
 
-	override fun newTransformer(): Transformer? = with(delegate.newTransformer()) {
-		if (getURIResolver() == null) {
-			setURIResolver(resolver)
-		}
-		this
-	}
-
+    override fun newTransformer(): Transformer? = with(delegate.newTransformer()) {
+        if (getURIResolver() == null) {
+            setURIResolver(resolver)
+        }
+        this
+    }
 }

@@ -48,28 +48,28 @@ import org.xmlunit.matchers.CompareMatcher.isIdenticalTo
 @ExtendWith(SpringExtension::class)
 class FlowTests {
 
-	@Test
-	fun `data URL should be resolved on XML transformation`(@Autowired input: DirectChannel, @Autowired output: QueueChannel) {
+    @Test
+    fun `data URL should be resolved on XML transformation`(@Autowired input: DirectChannel, @Autowired output: QueueChannel) {
 
-		val serializer = DataUrlSerializer()
+        val serializer = DataUrlSerializer()
 
-		input.send(
-			MessageBuilder
-				.withPayload(
-					"""
+        input.send(
+            MessageBuilder
+                .withPayload(
+                    """
 					<?xml version="1.0" encoding="UTF-8"?>
 					<document/>
 					""".replaceIndent()
-				)
-				.setHeader(
-					"data",
-					serializer.serialize(
-						DataUrlBuilder()
-							.setMimeType("application/xml")
-							.setHeader("charset", "UTF-8")
-							.setEncoding(DataUrlEncoding.BASE64)
-							.setData(
-								"""
+                )
+                .setHeader(
+                    "data",
+                    serializer.serialize(
+                        DataUrlBuilder()
+                            .setMimeType("application/xml")
+                            .setHeader("charset", "UTF-8")
+                            .setEncoding(DataUrlEncoding.BASE64)
+                            .setData(
+                                """
 								<nodes>
 									<node rank="0">
 										<node rank="0"/>
@@ -77,19 +77,19 @@ class FlowTests {
 									<node rank="1"/>
 								</nodes>
 								""".replaceIndent().toByteArray()
-							)
-							.build()
-					)
-				)
-				.build()
-		)
+                            )
+                            .build()
+                    )
+                )
+                .build()
+        )
 
-		val message = output.receive()
+        val message = output.receive()
 
-		assertThat(
-			message?.getPayload(),
-			isIdenticalTo(
-				"""
+        assertThat(
+            message?.getPayload(),
+            isIdenticalTo(
+                """
 				<?xml version="1.0" encoding="UTF-8"?>
 				<document>
 					<node rank="0">
@@ -98,40 +98,37 @@ class FlowTests {
 					<node rank="1"/>
 				</document>
 				""".replaceIndent()
-			).normalizeWhitespace()
-		)
+            ).normalizeWhitespace()
+        )
+    }
 
-	}
+    @TestConfiguration
+    @EnableIntegration
+    class Configuration {
 
-	@TestConfiguration
-	@EnableIntegration
-	class Configuration {
+        @Bean("xml.input")
+        fun xmlInputChannel() = direct()
 
-		@Bean("xml.input")
-		fun xmlInputChannel() = direct()
+        @Bean("xml.output")
+        fun xmlOutputChannel() = queue()
 
-		@Bean("xml.output")
-		fun xmlOutputChannel() = queue()
+        @Bean
+        fun stylesheet(loader: ResourceLoader) = loader.getResource("classpath:xslt/stylesheet.xsl")
 
-		@Bean
-		fun stylesheet(loader: ResourceLoader) = loader.getResource("classpath:xslt/stylesheet.xsl")
-
-		@Bean
-		fun flow(resource: Resource) = IntegrationFlows
-			.from("xml.input")
-			.transform(
-				with(
-					XsltPayloadTransformer(
-						resource,
-						DataURLResolverPresetTransformerFactory::class.java.getCanonicalName()
-					)
-				) {
-					setXsltParamHeaders("data")
-					this
-				})
-			.channel("xml.output")
-			.get()
-
-	}
-
+        @Bean
+        fun flow(resource: Resource) = IntegrationFlows
+            .from("xml.input")
+            .transform(
+                with(
+                    XsltPayloadTransformer(
+                        resource,
+                        DataURLResolverPresetTransformerFactory::class.java.getCanonicalName()
+                    )
+                ) {
+                    setXsltParamHeaders("data")
+                    this
+                })
+            .channel("xml.output")
+            .get()
+    }
 }
