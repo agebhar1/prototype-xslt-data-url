@@ -22,12 +22,14 @@
  */
 package com.github.agebhar1.prototypes.xml.transform
 
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.xml.transform.Templates
 import javax.xml.transform.Transformer
@@ -35,12 +37,17 @@ import javax.xml.transform.URIResolver
 
 class Jdk8URIResolverProxyTemplatesTests {
 
+    private val delegate = mockk<Templates>()
+    private val transformer = mockk<Transformer>(relaxed = true)
+    private val resolver = mockk<URIResolver>()
+
+    @BeforeEach
+    fun doBeforeEachTest() {
+        clearMocks(delegate, transformer, resolver)
+    }
+
     @Test
     fun `newTransformer() should return a transformer with default URIResolver if transformers URI resolver is null (JDK8 Bug)`() {
-
-        val delegate = mockk<Templates>()
-        val transformer = mockk<Transformer>(relaxed = true)
-        val resolver = mockk<URIResolver>()
 
         every { delegate.newTransformer() } returns transformer
         every { transformer.getURIResolver() } returns null
@@ -58,10 +65,6 @@ class Jdk8URIResolverProxyTemplatesTests {
 
     @Test
     fun `newTransformer() should return a transformer with provided URIResolver if it is not null (JDK9 and up)`() {
-
-        val delegate = mockk<Templates>()
-        val transformer = mockk<Transformer>()
-        val resolver = mockk<URIResolver>()
 
         every { delegate.newTransformer() } returns transformer
         every { transformer.getURIResolver() } returns resolver

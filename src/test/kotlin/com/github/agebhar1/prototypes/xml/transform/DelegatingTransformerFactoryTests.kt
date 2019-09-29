@@ -22,8 +22,10 @@
  */
 package com.github.agebhar1.prototypes.xml.transform
 
+import io.mockk.clearMocks
 import io.mockk.mockk
 import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.xml.transform.ErrorListener
 import javax.xml.transform.Source
@@ -32,10 +34,17 @@ import javax.xml.transform.URIResolver
 
 class DelegatingTransformerFactoryTests {
 
+    private val delegate: TransformerFactory = mockk(relaxed = true)
+    private val source: Source = mockk()
+
+    @BeforeEach
+    fun doBeforeEachTest() {
+        clearMocks(delegate, source)
+    }
+
     @Test
     fun `should delegate newTransformer()`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         factory.newTransformer()
@@ -48,10 +57,7 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate newTransformer(Source)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
-
-        val source = mockk<Source>()
 
         factory.newTransformer(source)
 
@@ -63,10 +69,7 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate newTemplates(Source)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
-
-        val source = mockk<Source>()
 
         factory.newTemplates(source)
 
@@ -78,10 +81,8 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate getAssociatedStylesheet(Source, String, String, String)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
-        val source = mockk<Source>()
         val media = "any media"
         val title = "any title"
         val charset = "any charset"
@@ -96,7 +97,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate setURIResolver(URIResolver)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         val resolver = mockk<URIResolver>()
@@ -111,7 +111,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate getURIResolver()`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         factory.getURIResolver()
@@ -124,7 +123,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate setFeature(String, Boolean)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         val name = "any feature"
@@ -139,7 +137,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate getFeature(String)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         val name = "any feature"
@@ -154,7 +151,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate setAttribute(String, Any)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         val name = "any attribute"
@@ -170,7 +166,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate getAttribute(String)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         val name = "any attribute"
@@ -185,7 +180,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate setErrorListener(ErrorListener)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         val listener = mockk<ErrorListener>()
@@ -200,7 +194,6 @@ class DelegatingTransformerFactoryTests {
     @Test
     fun `should delegate getErrorListener(String)`() {
 
-        val delegate = mockk<TransformerFactory>(relaxed = true)
         val factory = DelegatingTransformerFactory(delegate)
 
         factory.getErrorListener()
