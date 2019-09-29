@@ -22,57 +22,58 @@
  */
 package com.github.agebhar1.prototypes.xml.transform
 
-import javax.xml.transform.Templates
-import javax.xml.transform.Transformer
-import javax.xml.transform.URIResolver
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.any
-import org.mockito.Mockito.eq
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.never
-import org.mockito.Mockito.verify
+import javax.xml.transform.Templates
+import javax.xml.transform.Transformer
+import javax.xml.transform.URIResolver
 
 class Jdk8URIResolverProxyTemplatesTests {
 
     @Test
     fun `newTransformer() should return a transformer with default URIResolver if transformers URI resolver is null (JDK8 Bug)`() {
 
-        val delegate = mock(Templates::class.java)
-        val transformer = mock(Transformer::class.java)
-        val resolver = mock(URIResolver::class.java)
+        val delegate = mockk<Templates>()
+        val transformer = mockk<Transformer>(relaxed = true)
+        val resolver = mockk<URIResolver>()
 
-        `when`(delegate.newTransformer()).thenReturn(transformer)
-        `when`(transformer.getURIResolver()).thenReturn(null)
+        every { delegate.newTransformer() } returns transformer
+        every { transformer.getURIResolver() } returns null
 
         val instance = Jdk8URIResolverFixProxyTemplates(delegate, resolver)
 
         val actual = instance.newTransformer()
         assertThat(actual, `is`(equalTo(transformer)))
 
-        verify(transformer).getURIResolver()
-        verify(transformer).setURIResolver(eq(resolver))
+        verify {
+            transformer.getURIResolver()
+            transformer.setURIResolver(eq(resolver))
+        }
     }
 
     @Test
     fun `newTransformer() should return a transformer with provided URIResolver if it is not null (JDK9 and up)`() {
 
-        val delegate = mock(Templates::class.java)
-        val transformer = mock(Transformer::class.java)
-        val resolver = mock(URIResolver::class.java)
+        val delegate = mockk<Templates>()
+        val transformer = mockk<Transformer>()
+        val resolver = mockk<URIResolver>()
 
-        `when`(delegate.newTransformer()).thenReturn(transformer)
-        `when`(transformer.getURIResolver()).thenReturn(resolver)
+        every { delegate.newTransformer() } returns transformer
+        every { transformer.getURIResolver() } returns resolver
 
         val instance = Jdk8URIResolverFixProxyTemplates(delegate, resolver)
 
         val actual = instance.newTransformer()
         assertThat(actual, `is`(equalTo(transformer)))
 
-        verify(transformer).getURIResolver()
-        verify(transformer, never()).setURIResolver(any())
+        verify { transformer.getURIResolver() }
+        verify(exactly = 0) {
+            transformer.setURIResolver(any())
+        }
     }
 }
