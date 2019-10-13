@@ -25,12 +25,12 @@ package com.github.agebhar1.prototypes.xml.transform
 import io.mockk.clearMocks
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import javax.xml.transform.ErrorListener
 import javax.xml.transform.Source
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.URIResolver
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class DelegatingTransformerFactoryTests {
 

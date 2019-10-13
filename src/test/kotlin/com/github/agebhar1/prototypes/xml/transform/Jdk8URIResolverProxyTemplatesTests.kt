@@ -26,14 +26,14 @@ import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import javax.xml.transform.Templates
+import javax.xml.transform.Transformer
+import javax.xml.transform.URIResolver
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import javax.xml.transform.Templates
-import javax.xml.transform.Transformer
-import javax.xml.transform.URIResolver
 
 class Jdk8URIResolverProxyTemplatesTests {
 
