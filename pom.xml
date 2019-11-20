@@ -22,8 +22,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<spotless.version>1.25.1</spotless.version>
-		<ktlint.version>0.35.0</ktlint.version>
+		<spotless.version>1.26.0</spotless.version>
 		<mockk.version>1.9.2</mockk.version>
 	</properties>
 
@@ -117,9 +116,6 @@
 						<endWithNewline />
 						<trimTrailingWhitespace />
 						<encoding>UTF-8</encoding>
-						<ktlint>
-							<version>${ktlint.version}</version>
-						</ktlint>
 					</kotlin>
 				</configuration>
 			</plugin>
