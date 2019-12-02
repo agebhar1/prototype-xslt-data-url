@@ -22,7 +22,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<kotlin.version>1.3.60</kotlin.version>
+		<kotlin.version>1.3.61</kotlin.version>
 		<spotless.version>1.26.0</spotless.version>
 		<mockk.version>1.9.2</mockk.version>
 	</properties>
