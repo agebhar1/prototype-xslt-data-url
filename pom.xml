@@ -23,7 +23,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spotless.version>1.30.0</spotless.version>
-		<mockk.version>1.9.2</mockk.version>
+		<mockk.version>1.10.0</mockk.version>
 	</properties>
 
 	<dependencyManagement>
