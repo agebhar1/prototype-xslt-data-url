@@ -54,9 +54,9 @@ class FlowTests {
     input.send(
         MessageBuilder.withPayload(
                 """
-					<?xml version="1.0" encoding="UTF-8"?>
-					<document/>
-					""".replaceIndent())
+                <?xml version="1.0" encoding="UTF-8"?>
+                <document/>
+                """.replaceIndent())
             .setHeader(
                 "data",
                 serializer.serialize(
@@ -66,13 +66,13 @@ class FlowTests {
                         .setEncoding(DataUrlEncoding.BASE64)
                         .setData(
                             """
-								<nodes>
-									<node rank="0">
-										<node rank="0"/>
-									</node>
-									<node rank="1"/>
-								</nodes>
-								"""
+							<nodes>
+								<node rank="0">
+									<node rank="0"/>
+								</node>
+								<node rank="1"/>
+							</nodes>
+							"""
                                 .replaceIndent()
                                 .toByteArray())
                         .build()))
@@ -81,7 +81,7 @@ class FlowTests {
     val message = output.receive()
 
     assertThat(
-        message?.getPayload(),
+        message?.payload,
         isIdenticalTo(
                 """
 				<?xml version="1.0" encoding="UTF-8"?>
@@ -115,7 +115,7 @@ class FlowTests {
                 with(
                     XsltPayloadTransformer(
                         resource,
-                        DataURLResolverPresetTransformerFactory::class.java.getCanonicalName())) {
+                        DataURLResolverPresetTransformerFactory::class.java.canonicalName)) {
                   setXsltParamHeaders("data")
                   this
                 })

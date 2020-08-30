@@ -31,7 +31,7 @@ class DataURLResolverPresetTransformerFactoryTests {
 
     val instance = DataURLResolverPresetTransformerFactory()
 
-    assertThat(instance.getURIResolver(), `is`(instanceOf(DataURLResolver::class.java)))
+    assertThat(instance.uriResolver, `is`(instanceOf(DataURLResolver::class.java)))
   }
 
   @Test

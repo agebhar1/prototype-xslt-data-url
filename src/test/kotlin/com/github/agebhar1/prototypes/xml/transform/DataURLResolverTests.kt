@@ -86,7 +86,7 @@ class DataURLResolverTests {
 
     val actual = resolver.resolve("data:plain/text;base64,", null)
 
-    val data = (actual as StreamSource).getReader().readText()
+    val data = (actual as StreamSource).reader.readText()
     assertThat(data, `is`(equalTo("")))
   }
 
@@ -100,7 +100,7 @@ class DataURLResolverTests {
             "data:plain/text;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50Lz4K",
             null)
 
-    val data = (actual as StreamSource).getReader().readText()
+    val data = (actual as StreamSource).reader.readText()
     assertThat(data, `is`(equalTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<document/>\n")))
   }
 
@@ -111,7 +111,7 @@ class DataURLResolverTests {
 
     val actual = resolver.resolve("data:plain/text;charset=iso-8859-1;base64,tQ==", null)
 
-    val data = (actual as StreamSource).getReader().readText()
+    val data = (actual as StreamSource).reader.readText()
     assertThat(data, `is`(equalTo("µ")))
   }
 }

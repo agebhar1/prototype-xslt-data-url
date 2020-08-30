@@ -34,8 +34,6 @@ class DataURLResolver : URIResolver {
         val dataUrl = serializer.unserialize(it)
         StreamSource(
             StringReader(
-                String(
-                    dataUrl.getData(),
-                    Charset.forName(dataUrl.getHeaders()?.get("charset") ?: "UTF-8"))))
+                String(dataUrl.data, Charset.forName(dataUrl.headers?.get("charset") ?: "UTF-8"))))
       }
 }

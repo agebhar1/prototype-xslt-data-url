@@ -38,9 +38,11 @@ open class DelegatingTransformerFactory(protected val delegate: TransformerFacto
       source: Source?, media: String?, title: String?, charset: String?
   ): Source? = delegate.getAssociatedStylesheet(source, media, title, charset)
 
-  override fun setURIResolver(resolver: URIResolver?) = delegate.setURIResolver(resolver)
+  override fun setURIResolver(resolver: URIResolver?) {
+    delegate.uriResolver = resolver
+  }
 
-  override fun getURIResolver(): URIResolver? = delegate.getURIResolver()
+  override fun getURIResolver(): URIResolver? = delegate.uriResolver
 
   override fun setFeature(name: String?, value: Boolean) = delegate.setFeature(name, value)
 
@@ -50,7 +52,9 @@ open class DelegatingTransformerFactory(protected val delegate: TransformerFacto
 
   override fun getAttribute(name: String?): Any? = delegate.getAttribute(name)
 
-  override fun setErrorListener(listener: ErrorListener?) = delegate.setErrorListener(listener)
+  override fun setErrorListener(listener: ErrorListener?) {
+    delegate.errorListener = listener
+  }
 
-  override fun getErrorListener(): ErrorListener? = delegate.getErrorListener()
+  override fun getErrorListener(): ErrorListener? = delegate.errorListener
 }

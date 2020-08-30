@@ -26,9 +26,9 @@ class DataURLResolverPresetTransformerFactory :
     DelegatingTransformerFactory(TransformerFactory.newInstance()) {
 
   init {
-    setURIResolver(DataURLResolver())
+    uriResolver = DataURLResolver()
   }
 
   override fun newTemplates(source: Source?): Templates? =
-      Jdk8URIResolverFixProxyTemplates(delegate.newTemplates(source), getURIResolver())
+      Jdk8URIResolverFixProxyTemplates(delegate.newTemplates(source), uriResolver)
 }

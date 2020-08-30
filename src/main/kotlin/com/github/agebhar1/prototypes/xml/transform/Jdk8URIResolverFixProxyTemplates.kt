@@ -28,8 +28,8 @@ class Jdk8URIResolverFixProxyTemplates(
 
   override fun newTransformer(): Transformer? =
       delegate.newTransformer().apply {
-        if (getURIResolver() == null) {
-          setURIResolver(resolver)
+        if (uriResolver == null) {
+          uriResolver = resolver
         }
       }
 }

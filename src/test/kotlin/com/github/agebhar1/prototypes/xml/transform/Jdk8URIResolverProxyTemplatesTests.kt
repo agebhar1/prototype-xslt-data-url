@@ -46,7 +46,7 @@ class Jdk8URIResolverProxyTemplatesTests {
   fun `newTransformer() should return a transformer with default URIResolver if transformers URI resolver is null (JDK8 Bug)`() {
 
     every { delegate.newTransformer() } returns transformer
-    every { transformer.getURIResolver() } returns null
+    every { transformer.uriResolver } returns null
 
     val instance = Jdk8URIResolverFixProxyTemplates(delegate, resolver)
 
@@ -54,8 +54,8 @@ class Jdk8URIResolverProxyTemplatesTests {
     assertThat(actual, `is`(equalTo(transformer)))
 
     verify {
-      transformer.getURIResolver()
-      transformer.setURIResolver(eq(resolver))
+      transformer.uriResolver
+      transformer.uriResolver = eq(resolver)
     }
   }
 
@@ -63,14 +63,14 @@ class Jdk8URIResolverProxyTemplatesTests {
   fun `newTransformer() should return a transformer with provided URIResolver if it is not null (JDK9 and up)`() {
 
     every { delegate.newTransformer() } returns transformer
-    every { transformer.getURIResolver() } returns resolver
+    every { transformer.uriResolver } returns resolver
 
     val instance = Jdk8URIResolverFixProxyTemplates(delegate, resolver)
 
     val actual = instance.newTransformer()
     assertThat(actual, `is`(equalTo(transformer)))
 
-    verify { transformer.getURIResolver() }
-    verify(exactly = 0) { transformer.setURIResolver(any()) }
+    verify { transformer.uriResolver }
+    verify(exactly = 0) { transformer.uriResolver = any() }
   }
 }

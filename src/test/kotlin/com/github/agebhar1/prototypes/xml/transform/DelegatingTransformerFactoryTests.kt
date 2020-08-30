@@ -89,9 +89,9 @@ class DelegatingTransformerFactoryTests {
 
     val resolver = mockk<URIResolver>()
 
-    factory.setURIResolver(resolver)
+    factory.uriResolver = resolver
 
-    verify { delegate.setURIResolver(eq(resolver)) }
+    verify { delegate.uriResolver = eq(resolver) }
   }
 
   @Test
@@ -99,9 +99,9 @@ class DelegatingTransformerFactoryTests {
 
     val factory = DelegatingTransformerFactory(delegate)
 
-    factory.getURIResolver()
+    factory.uriResolver
 
-    verify { delegate.getURIResolver() }
+    verify { delegate.uriResolver }
   }
 
   @Test
@@ -160,9 +160,9 @@ class DelegatingTransformerFactoryTests {
 
     val listener = mockk<ErrorListener>()
 
-    factory.setErrorListener(listener)
+    factory.errorListener = listener
 
-    verify { delegate.setErrorListener(eq(listener)) }
+    verify { delegate.errorListener = eq(listener) }
   }
 
   @Test
@@ -170,8 +170,8 @@ class DelegatingTransformerFactoryTests {
 
     val factory = DelegatingTransformerFactory(delegate)
 
-    factory.getErrorListener()
+    factory.errorListener
 
-    verify { delegate.getErrorListener() }
+    verify { delegate.errorListener }
   }
 }
