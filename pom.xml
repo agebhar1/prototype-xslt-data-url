@@ -25,7 +25,7 @@
 		<kotlin.version>1.4.10</kotlin.version>
 		<ktfmt.version>0.18</ktfmt.version>
 		<mockk.version>1.9.2</mockk.version>
-		<spotless.version>2.4.1</spotless.version>
+		<spotless.version>2.4.2</spotless.version>
 	</properties>
 
 	<dependencyManagement>
