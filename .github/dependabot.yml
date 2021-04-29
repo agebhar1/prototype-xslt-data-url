@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "04:00"
+  open-pull-requests-limit: 10
+  reviewers:
+  - agebhar1
+  assignees:
+  - agebhar1
+  ignore:
+  - dependency-name: io.mockk:mockk
+    versions:
+    - ">= 1.10.a, < 1.11"
+  - dependency-name: io.mockk:mockk
+    versions:
+    - 1.11.0
