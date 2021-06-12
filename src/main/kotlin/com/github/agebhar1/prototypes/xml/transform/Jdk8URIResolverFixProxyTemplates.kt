@@ -23,7 +23,8 @@ import javax.xml.transform.Transformer
 import javax.xml.transform.URIResolver
 
 class Jdk8URIResolverFixProxyTemplates(
-    private val delegate: Templates, private val resolver: URIResolver?
+    private val delegate: Templates,
+    private val resolver: URIResolver?
 ) : Templates by delegate {
 
   override fun newTransformer(): Transformer? =

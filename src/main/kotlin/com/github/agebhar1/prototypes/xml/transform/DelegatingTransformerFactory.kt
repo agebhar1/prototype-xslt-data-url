@@ -35,7 +35,10 @@ open class DelegatingTransformerFactory(protected val delegate: TransformerFacto
   override fun newTemplates(source: Source?): Templates? = delegate.newTemplates(source)
 
   override fun getAssociatedStylesheet(
-      source: Source?, media: String?, title: String?, charset: String?
+      source: Source?,
+      media: String?,
+      title: String?,
+      charset: String?
   ): Source? = delegate.getAssociatedStylesheet(source, media, title, charset)
 
   override fun setURIResolver(resolver: URIResolver?) {

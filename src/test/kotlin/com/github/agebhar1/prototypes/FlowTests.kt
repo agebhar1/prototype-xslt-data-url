@@ -46,7 +46,8 @@ class FlowTests {
 
   @Test
   fun `data URL should be resolved on XML transformation`(
-      @Autowired input: DirectChannel, @Autowired output: QueueChannel
+      @Autowired input: DirectChannel,
+      @Autowired output: QueueChannel
   ) {
 
     val serializer = DataUrlSerializer()
@@ -99,11 +100,9 @@ class FlowTests {
   @EnableIntegration
   class Configuration {
 
-    @Bean("xml.input")
-    fun xmlInputChannel() = direct()
+    @Bean("xml.input") fun xmlInputChannel() = direct()
 
-    @Bean("xml.output")
-    fun xmlOutputChannel() = queue()
+    @Bean("xml.output") fun xmlOutputChannel() = queue()
 
     @Bean
     fun stylesheet(loader: ResourceLoader) = loader.getResource("classpath:xslt/stylesheet.xsl")
