@@ -26,10 +26,10 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.Resource
-import org.springframework.core.io.ResourceLoader
 import org.springframework.integration.channel.DirectChannel
 import org.springframework.integration.channel.QueueChannel
 import org.springframework.integration.config.EnableIntegration
@@ -105,10 +105,7 @@ class FlowTests {
     @Bean("xml.output") fun xmlOutputChannel() = queue()
 
     @Bean
-    fun stylesheet(loader: ResourceLoader) = loader.getResource("classpath:xslt/stylesheet.xsl")
-
-    @Bean
-    fun flow(resource: Resource) =
+    fun flow(@Value("classpath:xslt/stylesheet.xsl") resource: Resource) =
         IntegrationFlows.from("xml.input")
             .transform(
                 with(
