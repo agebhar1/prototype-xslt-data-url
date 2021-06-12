@@ -19,29 +19,22 @@
 package com.github.agebhar1.prototypes.xml.transform
 
 import javax.xml.transform.stream.StreamSource
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.instanceOf
-import org.hamcrest.Matchers.`is`
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class DataURLResolverPresetTransformerFactoryTests {
 
+  private val instance = DataURLResolverPresetTransformerFactory()
+
   @Test
   fun `a fresh instance's URIResolver should be of type DataURLResolver`() {
-
-    val instance = DataURLResolverPresetTransformerFactory()
-
-    assertThat(instance.uriResolver, `is`(instanceOf(DataURLResolver::class.java)))
+    assertThat(instance.uriResolver).isInstanceOf(DataURLResolver::class.java)
   }
 
   @Test
   fun `newTemplate(Source) should return a instance of Jdk8URIResolverFixProxyTemplates`() {
-
-    val instance = DataURLResolverPresetTransformerFactory()
-
-    assertThat(
-        instance.newTemplates(AnySource),
-        `is`(instanceOf(Jdk8URIResolverFixProxyTemplates::class.java)))
+    assertThat(instance.newTemplates(AnySource))
+        .isInstanceOf(Jdk8URIResolverFixProxyTemplates::class.java)
   }
 
   companion object {

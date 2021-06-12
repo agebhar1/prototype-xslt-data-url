@@ -25,9 +25,7 @@ import io.mockk.verify
 import javax.xml.transform.Templates
 import javax.xml.transform.Transformer
 import javax.xml.transform.URIResolver
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.`is`
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -51,7 +49,7 @@ class Jdk8URIResolverProxyTemplatesTests {
     val instance = Jdk8URIResolverFixProxyTemplates(delegate, resolver)
 
     val actual = instance.newTransformer()
-    assertThat(actual, `is`(equalTo(transformer)))
+    assertThat(actual).isEqualTo(transformer)
 
     verify {
       transformer.uriResolver
@@ -68,7 +66,7 @@ class Jdk8URIResolverProxyTemplatesTests {
     val instance = Jdk8URIResolverFixProxyTemplates(delegate, resolver)
 
     val actual = instance.newTransformer()
-    assertThat(actual, `is`(equalTo(transformer)))
+    assertThat(actual).isEqualTo(transformer)
 
     verify { transformer.uriResolver }
     verify(exactly = 0) { transformer.uriResolver = any() }
