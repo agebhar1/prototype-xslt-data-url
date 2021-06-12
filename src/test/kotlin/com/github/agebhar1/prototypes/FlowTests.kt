@@ -33,9 +33,9 @@ import org.springframework.core.io.Resource
 import org.springframework.integration.channel.DirectChannel
 import org.springframework.integration.channel.QueueChannel
 import org.springframework.integration.config.EnableIntegration
-import org.springframework.integration.dsl.IntegrationFlows
 import org.springframework.integration.dsl.MessageChannels.direct
 import org.springframework.integration.dsl.MessageChannels.queue
+import org.springframework.integration.dsl.integrationFlow
 import org.springframework.integration.support.MessageBuilder
 import org.springframework.integration.xml.transformer.XsltPayloadTransformer
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -106,16 +106,12 @@ class FlowTests {
 
     @Bean
     fun flow(@Value("classpath:xslt/stylesheet.xsl") resource: Resource) =
-        IntegrationFlows.from("xml.input")
-            .transform(
-                with(
-                    XsltPayloadTransformer(
-                        resource,
-                        DataURLResolverPresetTransformerFactory::class.java.canonicalName)) {
-                  setXsltParamHeaders("data")
-                  this
-                })
-            .channel("xml.output")
-            .get()
+        integrationFlow("xml.input") {
+          transform(
+              XsltPayloadTransformer(
+                      resource, DataURLResolverPresetTransformerFactory::class.java.canonicalName)
+                  .apply { setXsltParamHeaders("data") })
+          channel("xml.output")
+        }
   }
 }
