@@ -1,5 +1,5 @@
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/agebhar1/prototype-xslt-data-url/blob/master/LICENSE)
-[![Build Status](https://github.com/agebhar1/micrometer-certs-expiration/actions/workflows/ci.yml/badge.svg)](https://github.com/agebhar1/prototype-xslt-data-url/actions?query=branch%3Amain)
+[![Build Status](https://github.com/agebhar1/prototype-xslt-data-url/actions/workflows/ci.yml/badge.svg)](https://github.com/agebhar1/prototype-xslt-data-url/actions?query=branch%3Amain)
 
 # Purpose
 
