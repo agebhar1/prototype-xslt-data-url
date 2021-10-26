@@ -7,18 +7,17 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        java: [ 8.0.292, 11.0.11, 15.0.3, 16.0.1 ]
-    name: Java ${{ matrix.java }}
+        javaVersion: [ "8", "11", "17" ]
+        javaDistribution: [ "adopt", "zulu" ]
+    name: Java ${{ matrix.javaVersion }}-${{ matrix.javaDistribution }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up Azul JDK ${{ matrix.java }}
-        uses: actions/setup-java@v2
+      - uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
-          java-version: ${{ matrix.java }}
-      - name: Cache Maven Packages
-        uses: actions/cache@v2
+          distribution: ${{ matrix.javaDistribution }}
+          java-version: ${{ matrix.javaVersion }}
+      - uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
