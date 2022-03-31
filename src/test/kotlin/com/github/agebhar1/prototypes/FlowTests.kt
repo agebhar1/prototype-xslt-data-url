@@ -46,27 +46,27 @@ class FlowTests {
 
   @Test
   fun `data URL should be resolved on XML transformation`(
-      @Autowired input: DirectChannel,
-      @Autowired output: QueueChannel
+    @Autowired input: DirectChannel,
+    @Autowired output: QueueChannel
   ) {
 
     val serializer = DataUrlSerializer()
 
     input.send(
-        MessageBuilder.withPayload(
-                """
+      MessageBuilder.withPayload(
+          """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <document/>
                 """.replaceIndent())
-            .setHeader(
-                "data",
-                serializer.serialize(
-                    DataUrlBuilder()
-                        .setMimeType("application/xml")
-                        .setHeader("charset", "UTF-8")
-                        .setEncoding(DataUrlEncoding.BASE64)
-                        .setData(
-                            """
+        .setHeader(
+          "data",
+          serializer.serialize(
+            DataUrlBuilder()
+              .setMimeType("application/xml")
+              .setHeader("charset", "UTF-8")
+              .setEncoding(DataUrlEncoding.BASE64)
+              .setData(
+                """
 							<nodes>
 								<node rank="0">
 									<node rank="0"/>
@@ -74,17 +74,17 @@ class FlowTests {
 								<node rank="1"/>
 							</nodes>
 							"""
-                                .replaceIndent()
-                                .toByteArray())
-                        .build()))
-            .build())
+                  .replaceIndent()
+                  .toByteArray())
+              .build()))
+        .build())
 
     val message = output.receive()
 
     assertThat(
-        message?.payload,
-        isIdenticalTo(
-                """
+      message?.payload,
+      isIdenticalTo(
+          """
 				<?xml version="1.0" encoding="UTF-8"?>
 				<document>
 					<node rank="0">
@@ -93,7 +93,7 @@ class FlowTests {
 					<node rank="1"/>
 				</document>
 				""".replaceIndent())
-            .normalizeWhitespace())
+        .normalizeWhitespace())
   }
 
   @TestConfiguration
@@ -106,12 +106,12 @@ class FlowTests {
 
     @Bean
     fun flow(@Value("classpath:xslt/stylesheet.xsl") resource: Resource) =
-        integrationFlow("xml.input") {
-          transform(
-              XsltPayloadTransformer(
-                      resource, DataURLResolverPresetTransformerFactory::class.java.canonicalName)
-                  .apply { setXsltParamHeaders("data") })
-          channel("xml.output")
-        }
+      integrationFlow("xml.input") {
+        transform(
+          XsltPayloadTransformer(
+              resource, DataURLResolverPresetTransformerFactory::class.java.canonicalName)
+            .apply { setXsltParamHeaders("data") })
+        channel("xml.output")
+      }
   }
 }

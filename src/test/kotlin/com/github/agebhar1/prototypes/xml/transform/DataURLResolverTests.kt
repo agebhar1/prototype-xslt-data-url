@@ -43,7 +43,7 @@ class DataURLResolverTests {
   @Test
   fun `resolve non data URL should throw MalformedURLException`() {
     val exception =
-        assertThrows<MalformedURLException> { resolver.resolve("https://github.com/", null) }
+      assertThrows<MalformedURLException> { resolver.resolve("https://github.com/", null) }
     assertThat(exception).hasMessage("Wrong protocol")
   }
 
@@ -61,9 +61,9 @@ class DataURLResolverTests {
   @Test
   fun `resolve data URL with invalid 'encoding' should throw MalformedURLException`() {
     val exception =
-        assertThrows<MalformedURLException> {
-          resolver.resolve("data:plain/text;base32,JBSWY3DPEBFW65DMNFXAU===", null)
-        }
+      assertThrows<MalformedURLException> {
+        resolver.resolve("data:plain/text;base32,JBSWY3DPEBFW65DMNFXAU===", null)
+      }
     assertThat(exception).hasMessage("Unknown encoding \"base32\"")
   }
 
@@ -76,11 +76,11 @@ class DataURLResolverTests {
   @Test
   fun `resolve data URL with Base64 decoded data should return a StreamSource with encoded data`() {
     val actual =
-        resolver
-            .resolve(
-                "data:plain/text;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50Lz4K",
-                null)
-            .asString()
+      resolver
+        .resolve(
+          "data:plain/text;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50Lz4K",
+          null)
+        .asString()
     assertThat(actual).isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<document/>\n")
   }
 
@@ -91,10 +91,10 @@ class DataURLResolverTests {
   }
 
   private fun Source?.asString(): String? =
-      this?.let {
-        when (it) {
-          is StreamSource -> it.reader.readText()
-          else -> null
-        }
+    this?.let {
+      when (it) {
+        is StreamSource -> it.reader.readText()
+        else -> null
       }
+    }
 }
