@@ -55,9 +55,10 @@ class FlowTests {
     input.send(
       MessageBuilder.withPayload(
           """
-                <?xml version="1.0" encoding="UTF-8"?>
-                <document/>
-                """.replaceIndent())
+          <?xml version="1.0" encoding="UTF-8"?>
+          <document/>
+          """
+            .replaceIndent())
         .setHeader(
           "data",
           serializer.serialize(
@@ -92,7 +93,8 @@ class FlowTests {
 					</node>
 					<node rank="1"/>
 				</document>
-				""".replaceIndent())
+				"""
+            .replaceIndent())
         .normalizeWhitespace())
   }
 

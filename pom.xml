@@ -22,7 +22,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<ktfmt.version>0.40</ktfmt.version>
+		<ktfmt.version>0.41</ktfmt.version>
 		<mockk.version>1.12.5</mockk.version>
 		<spotless.version>2.27.2</spotless.version>
 	</properties>
