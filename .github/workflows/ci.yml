@@ -22,5 +22,7 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: Check Code Formatting w/ Spotless
+        run: mvn spotless:check --no-transfer-progress
       - name: Test with Maven
         run: mvn test --no-transfer-progress
