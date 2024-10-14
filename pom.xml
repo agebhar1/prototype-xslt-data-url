@@ -22,7 +22,7 @@
 
 	<properties>
 		<ktfmt.version>0.41</ktfmt.version>
-		<mockk.version>1.13.12</mockk.version>
+		<mockk.version>1.13.13</mockk.version>
 		<spotless.version>2.32.0</spotless.version>
 	</properties>
 
