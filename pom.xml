@@ -23,7 +23,7 @@
 	<properties>
 		<ktfmt.version>0.41</ktfmt.version>
 		<mockk.version>1.13.16</mockk.version>
-		<spotless.version>2.32.0</spotless.version>
+		<spotless.version>2.44.2</spotless.version>
 	</properties>
 
 	<dependencyManagement>
