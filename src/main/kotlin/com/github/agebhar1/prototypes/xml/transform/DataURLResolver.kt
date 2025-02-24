@@ -30,10 +30,10 @@ class DataURLResolver : URIResolver {
   private val serializer = DataUrlSerializer()
 
   override fun resolve(href: String?, base: String?): Source? =
-    href?.let {
-      val dataUrl = serializer.unserialize(it)
-      StreamSource(
-        StringReader(
-          String(dataUrl.data, Charset.forName(dataUrl.headers?.get("charset") ?: "UTF-8"))))
-    }
+      href?.let {
+        val dataUrl = serializer.unserialize(it)
+        StreamSource(
+            StringReader(
+                String(dataUrl.data, Charset.forName(dataUrl.headers?.get("charset") ?: "UTF-8"))))
+      }
 }

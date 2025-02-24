@@ -34,7 +34,7 @@ class DataURLResolverPresetTransformerFactoryTests {
   @Test
   fun `newTemplate(Source) should return a instance of Jdk8URIResolverFixProxyTemplates`() {
     assertThat(instance.newTemplates(AnySource))
-      .isInstanceOf(Jdk8URIResolverFixProxyTemplates::class.java)
+        .isInstanceOf(Jdk8URIResolverFixProxyTemplates::class.java)
   }
 
   companion object {

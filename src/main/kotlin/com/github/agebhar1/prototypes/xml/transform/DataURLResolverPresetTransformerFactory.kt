@@ -23,12 +23,12 @@ import javax.xml.transform.Templates
 import javax.xml.transform.TransformerFactory
 
 class DataURLResolverPresetTransformerFactory :
-  DelegatingTransformerFactory(TransformerFactory.newInstance()) {
+    DelegatingTransformerFactory(TransformerFactory.newInstance()) {
 
   init {
     uriResolver = DataURLResolver()
   }
 
   override fun newTemplates(source: Source?): Templates? =
-    Jdk8URIResolverFixProxyTemplates(delegate.newTemplates(source), uriResolver)
+      Jdk8URIResolverFixProxyTemplates(delegate.newTemplates(source), uriResolver)
 }
